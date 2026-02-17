@@ -1,0 +1,31 @@
+{
+    "name": "notebooklm-mcp-skill-setup",
+    "version": "1.0.0",
+    "description": "Integra NotebookLM con agentes de IA usando MCP. Instalador interactivo.",
+    "bin": {
+        "notebooklm-mcp-skill": "./bin/install.js"
+    },
+    "scripts": {
+        "start": "node bin/install.js",
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "engines": {
+        "node": ">=14"
+    },
+    "files": [
+        "bin",
+        "SKILL.md",
+        "README.md",
+        "LICENSE"
+    ],
+    "keywords": [
+        "notebooklm",
+        "mcp",
+        "ai-agent",
+        "skill",
+        "automation",
+        "rag"
+    ],
+    "author": "",
+    "license": "MIT"
+}

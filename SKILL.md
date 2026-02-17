@@ -1,27 +1,27 @@
 ---
 name: "NotebookLM MCP Connector"
-description: "Comprehensive guide to install, configure, and authenticate the NotebookLM MCP server, including automatic and manual methods."
+description: "Guía completa para instalar, configurar y autenticar el servidor MCP de NotebookLM, incluyendo métodos automáticos y manuales."
 ---
 
 # NotebookLM MCP Connector Skill
 
-This Skill details the procedure to integrate **NotebookLM** as an MCP server into your AI assistant. It allows access to your notebooks, sources, and perform RAG queries directly from your development environment.
+Este Skill detalla el procedimiento para integrar **NotebookLM** como un servidor MCP en tu asistente de IA. Permite acceder a tus libretas, fuentes y realizar consultas RAG directamente desde el entorno de desarrollo.
 
-## 1. Installation
+## 1. Instalación
 
-The server is distributed as a Python package. Ensure you have Python 3.10+ installed.
+El servidor se distribuye como un paquete de Python. Asegúrate de tener Python 3.10+ instalado.
 
 ```bash
 pip install notebooklm-mcp-server
 ```
 
-This will install two main executables:
-- `notebooklm-mcp`: The MCP server.
-- `notebooklm-mcp-auth`: The authentication tool.
+Esto instalará dos ejecutables principales:
+- `notebooklm-mcp`: El servidor MCP.
+- `notebooklm-mcp-auth`: La herramienta de autenticación.
 
-## 2. Configuration in `mcp_config.json`
+## 2. Configuración en `mcp_config.json`
 
-Add the following configuration to your `mcp_config.json` file (usually in `~/.gemini/antigravity/` or similar, depending on your MCP client).
+Añade la siguiente configuración a tu archivo `mcp_config.json` (usualmente en `~/.gemini/antigravity/` o similar, dependiendo de tu cliente MCP).
 
 ```json
 {
@@ -34,54 +34,54 @@ Add the following configuration to your `mcp_config.json` file (usually in `~/.g
 }
 ```
 
-> **Note:** If using a virtual environment (venv), ensure the `command` points to the absolute path of the executable within the venv, or activate the environment before launching the client.
+> **Nota:** Si usas un entorno virtual (venv), asegúrate de que el `command` apunte a la ruta absoluta del ejecutable dentro del venv, o activa el entorno antes de lanzar el cliente.
 
-## 3. Authentication (Crucial Step)
+## 3. Autenticación (Paso Crucial)
 
-Authentication is necessary to access your private data. There are two methods.
+La autenticación es necesaria para acceder a tus datos privados. Existen dos métodos.
 
-### Method A: Automatic (Recommended if it works)
+### Método A: Automático (Recomendado si funciona)
 
-Try running the automatic authentication command. This will open a controlled Chrome browser to extract cookies.
+Intenta ejecutar el comando de autenticación automática. Esto abrirá un navegador Chrome controlado para extraer las cookies.
 
 ```bash
 notebooklm-mcp-auth
 ```
 
-**If you see a `Handshake status 403 Forbidden` error**, it means the browser is blocking the remote debugging connection. in that case, use **Method B**.
+**Si ves un error `Handshake status 403 Forbidden`**, significa que el navegador está bloqueando la conexión de depuración remota. En ese caso, usa el **Método B**.
 
 ---
 
-### Method B: Manual (Foolproof)
+### Método B: Manual (Infalible)
 
-This method involves manually extracting cookies from your browser session and passing them to the authentication tool.
+Este método implica extraer manualmente las cookies de tu sesión de navegador y pasarlas a la herramienta de autenticación.
 
-**Steps:**
+**Pasos:**
 
-1.  Open [NotebookLM](https://notebooklm.google.com/) in your browser (Chrome/Edge).
-2.  Open **Developer Tools** (`F12` or `Ctrl+Shift+I`).
-3.  Go to the **Network** tab.
-4.  In the filter, type: `batchexecute`.
-5.  Interact with the page (e.g., refresh or open a notebook) to generate traffic.
-6.  Click on one of the `batchexecute` requests that appear.
-7.  In the details panel (right), go to **Request Headers**.
-8.  Find the `cookie:` field.
-9.  Right-click on the cookie value and select **Copy value**.
-10. Create a local file in your project root named `cookies.txt` and paste usage content.
-11. Run the following command in your terminal:
+1.  Abre [NotebookLM](https://notebooklm.google.com/) en tu navegador (Chrome/Edge).
+2.  Abre las **Herramientas de Desarrollador** (`F12` o `Ctrl+Shift+I`).
+3.  Ve a la pestaña **Network** (Red).
+4.  En el filtro, escribe: `batchexecute`.
+5.  Interactúa con la página (ej. refresca o abre una libreta) para generar tráfico.
+6.  Haz clic en una de las peticiones `batchexecute` que aparezcan.
+7.  En el panel de detalles (derecha), ve a **Request Headers** (Cabeceras de solicitud).
+8.  Busca el campo `cookie:`.
+9.  Haz clic derecho sobre el valor de la cookie y selecciona **Copy value** (Copiar valor).
+10. Crea un archivo local en la raiz de tu proyecto llamado `cookies.txt` y pega el contenido.
+11. Ejecuta el siguiente comando en tu terminal:
 
 ```bash
 notebooklm-mcp-auth --file cookies.txt
 ```
 
-If everything is correct, you will see:
-`Auth tokens cached to C:\Users\YOUR_USER\.notebooklm-mcp\auth.json`
+Si todo es correcto, verás:
+`Auth tokens cached to C:\Users\TU_USUARIO\.notebooklm-mcp\auth.json`
 
-> **Security:** Once finished, you can delete the `cookies.txt` file.
+> **Seguridad:** Una vez finalizado, puedes borrar el archivo `cookies.txt`.
 
-## 4. Verification
+## 4. Verificación
 
-To confirm the connection works before using it in chat, use this Python script:
+Para confirmar que la conexión funciona antes de usarla en el chat, puedes usar este script de Python:
 
 ```python
 from notebooklm_mcp.api_client import NotebookLMClient
@@ -110,27 +110,20 @@ if __name__ == "__main__":
     main()
 ```
 
-## 5. Troubleshooting Common Issues
+## 5. Solución de Problemas Comunes
 
-*   **UnicodeEncodeError on Windows:**
-    *   *Symptom:* Error printing titles with emojis or special characters to the console.
-    *   *Solution:* Set environment variable `PYTHONIOENCODING=utf-8` or handle encoding explicitly in test scripts.
-*   **Error 403 in `notebooklm-mcp-auth`:**
-    *   *Cause:* Chrome security restrictions for local WebSocket connections.
-    *   *Solution:* Use Method B (Manual) described above.
-*   **Expired Tokens:**
-    *   If after some time (days/weeks) it stops working, repeat the authentication process (Step 3).
+*   **UnicodeEncodeError en Windows:**
+    *   *Síntoma:* Error al imprimir títulos con emojis o caracteres especiales en la consola.
+    *   *Solución:* Configurar la variable de entorno `PYTHONIOENCODING=utf-8` o manejar la codificación explícitamente en los scripts de prueba.
+*   **Error 403 en `notebooklm-mcp-auth`:**
+    *   *Causa:* Restricciones de seguridad de Chrome para conexiones WebSocket locales.
+    *   *Solución:* Usar el Método B (Manual) descrito arriba.
+*   **Tokens Expirados:**
+    *   Si después de un tiempo (días/semanas) deja de funcionar, repite el proceso de autenticación (Paso 3).
 
-## 6. Installation via Curl (Skill Only)
+## 6. Uso
 
-To quickly install this skill into your agent's skills directory:
-
-```bash
-curl -fsSL https://raw.githubusercontent.com/YOUR_USERNAME/notebooklm-mcp-skill/main/SKILL.md -o .agent/skills/notebooklm-mcp/SKILL.md --create-dirs
-```
-
-## 7. Package Info
-
-This skill relies on the Python package:
-`notebooklm-mcp-server`
-[PyPI Link](https://pypi.org/project/notebooklm-mcp-server/)
+Una vez configurado, puedes pedirle a tu asistente:
+*   "Lista mis libretas de NotebookLM"
+*   "Busca información sobre [tema] en mi libreta de [nombre]"
+*   "Añade este recurso a la libreta X"

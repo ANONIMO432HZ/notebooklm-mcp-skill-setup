@@ -1,40 +1,55 @@
 
-# NotebookLM MCP Connector Skill
+# Skill Conector NotebookLM MCP
 
-This repository contains the **NotebookLM MCP Connector Skill**, a comprehensive guide to installing, configuring, and authenticating the NotebookLM MCP server for use with AI agents.
+Este repositorio contiene el **Skill Conector para NotebookLM MCP**, una guía completa y herramienta para instalar, configurar y autenticar el servidor MCP de NotebookLM en tus agentes de IA (como Claude, Cursor, o Antigravity).
 
-## What is this?
+## ¿Qué es esto?
 
-This is a "Skill" file (`SKILL.md`) designed for AI agents (like Claude, Gemini, etc.) that support skill/tool loading. It provides the agent with the knowledge to set up the [NotebookLM MCP Server](https://pypi.org/project/notebooklm-mcp-server/).
+Este es un paquete `npm` que instala un archivo de "Skill" (`SKILL.md`) en tu entorno de agente. Este archivo proporciona al agente el conocimiento necesario para configurar el servidor [NotebookLM MCP Server](https://pypi.org/project/notebooklm-mcp-server/).
 
-## Installation
+## Instalación
 
-### Method 1: Curl (Direct Download)
+Puedes instalar este skill de dos formas:
 
-To install this skill into your agent's `.agent/skills` directory, run:
+### Método 1: Vía `npx` (Interactivo - Recomendado)
+
+Simplemente ejecuta este comando en tu terminal y sigue las instrucciones en pantalla (en español):
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/ANONIMO432HZ/notebooklm-mcp-skill-setup/main/SKILL.md --create-dirs -o .agent/skills/notebooklm-mcp/SKILL.md
+npx notebooklm-mcp-skill
 ```
 
-### Method 2: Manual Check
+El asistente te preguntará si deseas instalar el skill a nivel de **Proyecto** (en la carpeta actual) o a nivel **Global** (en tu directorio de usuario).
 
-1. Copy the `SKILL.md` file.
-2. Place it in your agent's skill directory (e.g., `.agent/skills/notebooklm-mcp/SKILL.md`).
-3. Reload your agent.
+### Método 2: Manual
 
-## Usage
+1. Descarga el archivo `SKILL.md` de este repositorio.
+2. Colócalo en la carpeta de skills de tu agente (ej. `.agent/skills/notebooklm-mcp/SKILL.md`).
+3. Recarga tu agente.
 
-Once installed, your agent will know how to:
-1.  Install the `notebooklm-mcp-server` Python package.
-2.  Configure `mcp_config.json`.
-3.  Authenticate with NotebookLM (including troubleshooting auth issues).
+## Uso
 
-## Requirements
+Una vez instalado, tu agente sabrá cómo:
+1.  Instalar el paquete Python `notebooklm-mcp-server`.
+2.  Configurar tu archivo `mcp_config.json`.
+3.  Autenticarse con Google NotebookLM (incluyendo solución de problemas comunes).
 
-- Python 3.10+
-- An AI Agent or MCP Client (e.g., Cursor, Claude Desktop, Antigravity)
+## Requisitos
 
-## License
+- **Node.js**: Para ejecutar el instalador `npx`.
+- **Python 3.10+**: Para el servidor MCP que el agente instalará.
+- Un Agente de IA o Cliente MCP compatible.
+
+## Metadatos para GitHub
+
+Si estás alojando esto en GitHub, puedes usar los siguientes detalles:
+
+**Descripción:**
+> Integra NotebookLM con tu agente de IA usando el protocolo MCP. Incluye instalación interactiva y guías de configuración en español.
+
+**Topics:**
+`mcp-server`, `notebooklm`, `ai-agent`, `mcp-skill`, `python`, `rag`, `llm-tools`, `google-notebooklm`, `spanish`
+
+## Licencia
 
 MIT
