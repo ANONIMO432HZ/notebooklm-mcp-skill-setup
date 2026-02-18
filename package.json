@@ -1,7 +1,11 @@
 {
-    "name": "notebooklm-mcp-skill-setup",
-    "version": "1.0.6",
+    "name": "@ANONIMO432HZ/notebooklm-mcp-skill-setup",
+    "version": "1.0.7",
     "description": "Integra NotebookLM con agentes de IA usando MCP. Instalador interactivo.",
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/ANONIMO432HZ/notebooklm-mcp-skill-setup.git"
+    },
     "bin": {
         "notebooklm": "bin/cli.js"
     },
