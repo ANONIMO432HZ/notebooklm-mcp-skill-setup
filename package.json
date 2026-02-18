@@ -1,6 +1,6 @@
 {
     "name": "notebooklm-mcp-skill-setup",
-    "version": "1.0.5",
+    "version": "1.0.6",
     "description": "Integra NotebookLM con agentes de IA usando MCP. Instalador interactivo.",
     "bin": {
         "notebooklm": "bin/cli.js"

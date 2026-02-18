@@ -10,7 +10,7 @@ const homedir = os.homedir();
 
 // Detectar argumentos
 const args = process.argv.slice(2);
-const showHelp = args.includes('--help') || args.includes('-h');
+const isHelpRequested = args.includes('--help') || args.includes('-h');
 
 const rl = readline.createInterface({
     input: process.stdin,
@@ -223,7 +223,7 @@ function handleUninstall() {
 }
 
 // Iniciar
-if (showHelp) {
+if (isHelpRequested) {
     showHelp();
 }
 

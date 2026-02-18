@@ -48,7 +48,7 @@ curl -o ~/.agent/skills/notebooklm-mcp/SKILL.md \
 ```powershell
 $path = "$($env:USERPROFILE)\.agent\skills\notebooklm-mcp"
 New-Item -ItemType Directory -Force -Path $path
-Invoke-WebRequest -Uri "https://raw.githubusercontent.com/tu-usuario/notebooklm-mcp-skill-setup/main/SKILL.md" `
+Invoke-WebRequest -Uri "https://raw.githubusercontent.com/ANONIMO432HZ/notebooklm-mcp-skill-setup/main/SKILL.md" `
   -OutFile "$path\SKILL.md"
 ```
 
