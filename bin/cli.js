@@ -8,6 +8,10 @@ const { execSync } = require('child_process');
 
 const homedir = os.homedir();
 
+// Detectar argumentos
+const args = process.argv.slice(2);
+const showHelp = args.includes('--help') || args.includes('-h');
+
 const rl = readline.createInterface({
     input: process.stdin,
     output: process.stdout
@@ -24,34 +28,90 @@ const PROJECT_DIR = process.cwd();
 const PROJECT_SKILL_PATH = path.join(PROJECT_DIR, '.agent', 'skills', SKILL_DIRNAME, SKILL_FILENAME);
 const GLOBAL_SKILL_PATH = path.join(homedir, '.agent', 'skills', SKILL_DIRNAME, SKILL_FILENAME);
 
+function showHelp() {
+    console.log(`
+\x1b[36m==========================================\x1b[0m
+\x1b[36m   Gestor de Skill NotebookLM MCP\x1b[0m
+\x1b[36m==========================================\x1b[0m
+
+\x1b[1mUSO:\x1b[0m
+  notebooklm [opción]
+
+\x1b[1mOPCIONES:\x1b[0m
+  (sin argumentos)  Abre el menú interactivo
+  --help, -h        Muestra esta ayuda
+  --version, -v     Muestra la versión
+
+\x1b[1mEJEMPLOS:\x1b[0m
+  notebooklm          # Abre el instalador interactivo
+  notebooklm --help   # Muestra esta ayuda
+
+\x1b[1mÚSO:\x1b[0m
+1. \x1b[32mInstalar\x1b[0m el skill en tu entorno
+2. \x1b[31mDesinstalar\x1b[0m el skill si es necesario
+
+El skill se instalará en una de estas ubicaciones:
+  • Proyecto: ${PROJECT_SKILL_PATH}
+  • Global: ${GLOBAL_SKILL_PATH}
+
+    `);
+    process.exit(0);
+}
+
 function clearScreen() {
     process.stdout.write('\x1Bc');
 }
 
 function showBanner() {
+    console.log('');
     console.log('\x1b[36m%s\x1b[0m', '==========================================');
     console.log('\x1b[36m%s\x1b[0m', '   Gestor de Skill NotebookLM MCP');
     console.log('\x1b[36m%s\x1b[0m', '==========================================');
+    console.log('');
     console.log('Sistema Operativo detectado:', os.platform());
     console.log('');
 }
 
+function showPostInstallMessage() {
+    console.log('\x1b[32m%s\x1b[0m', '✔ ¡Bienvenido al Gestor de Skill NotebookLM MCP!');
+    console.log('');
+    console.log('Este herramienta te ayudará a instalar el skill en tu entorno de IA.');
+    console.log('');
+}
+
 function promptOptions() {
-    console.log('¿Qué te gustaría hacer?');
-    console.log('1. \x1b[32mInstalar\x1b[0m Skill');
-    console.log('2. \x1b[31mDesinstalar\x1b[0m Skill');
-    console.log('3. Salir');
+    console.log('\x1b[1mOpciones disponibles:\x1b[0m');
+    console.log('');
+    console.log('  1. \x1b[32m✓ Instalar\x1b[0m Skill');
+    console.log('     Instala el skill en tu entorno (proyecto o global)');
+    console.log('');
+    console.log('  2. \x1b[31m✗ Desinstalar\x1b[0m Skill');
+    console.log('     Remove el skill de tu entorno');
+    console.log('');
+    console.log('  3. \x1b[33mℹ Ayuda\x1b[0m');
+    console.log('     Muestra información de uso');
+    console.log('');
+    console.log('  4. \x1b[90mSalir\x1b[0m');
+    console.log('     Cierra el programa');
     console.log('');
 
-    rl.question('Selecciona una opción (1-3): ', (option) => {
-        if (option.trim() === '1') {
+    rl.question('Selecciona una opción (1-4): ', (option) => {
+        const opt = option.trim();
+        if (opt === '1') {
             handleInstall();
-        } else if (option.trim() === '2') {
+        } else if (opt === '2') {
             handleUninstall();
-        } else {
-            console.log('Saliendo...');
+        } else if (opt === '3') {
+            showHelp();
+        } else if (opt === '4') {
+            console.log('');
+            console.log('\x1b[33mHasta luego!\x1b[0m');
             rl.close();
             process.exit(0);
+        } else {
+            console.log('\x1b[31m✗ Opción inválida. Intenta de nuevo.\x1b[0m');
+            console.log('');
+            promptOptions();
         }
     });
 }
@@ -88,12 +148,18 @@ function handleInstall() {
             }
 
             fs.copyFileSync(SKILL_SOURCE, destPath);
-            console.log(`\n\x1b[32m✔ ÉXITO: Skill instalado en ${destPath}\x1b[0m`);
+            console.log(`\n\x1b[32m✔ ÉXITO: Skill instalado correctamente\x1b[0m`);
+            console.log(`\nUbicación: ${destPath}`);
 
             // Verificar configuración MCP
             console.log('\n--- SIGUIENTES PASOS ---');
-            console.log('1. Asegúrate de tener el servidor Python instalado: pip install notebooklm-mcp-server');
-            console.log('2. Ejecuta la autenticación: notebooklm-mcp-auth');
+            console.log('1. Asegúrate de tener el servidor Python instalado:');
+            console.log('   \x1b[36mpip install notebooklm-mcp-server\x1b[0m');
+            console.log('');
+            console.log('2. Recarga tu agente de IA para que reconozca el nuevo skill');
+            console.log('');
+            console.log('3. Para más información, consulta SKILL.md');
+            console.log('');
 
         } catch (err) {
             console.error(`\x1b[31m✖ Error: ${err.message}\x1b[0m`);
@@ -157,5 +223,10 @@ function handleUninstall() {
 }
 
 // Iniciar
+if (showHelp) {
+    showHelp();
+}
+
 showBanner();
+showPostInstallMessage();
 promptOptions();

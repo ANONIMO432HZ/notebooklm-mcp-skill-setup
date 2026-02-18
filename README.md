@@ -9,23 +9,78 @@ Este es un paquete `npm` que instala un archivo de "Skill" (`SKILL.md`) en tu en
 
 ## Instalación
 
-Puedes instalar este skill de dos formas:
+### Opción 1: Instalación con npm/npx (Recomendado)
 
-### Método 1: Vía `npx` (Interactivo - Recomendado)
-
-Simplemente ejecuta este comando en tu terminal y sigue las instrucciones en pantalla (en español):
+**Instalación Global:**
 
 ```bash
-npx notebooklm-mcp-skill
+npm install -g notebooklm-mcp-skill-setup
 ```
 
-El asistente te preguntará si deseas instalar el skill a nivel de **Proyecto** (en la carpeta actual) o a nivel **Global** (en tu directorio de usuario).
+Luego ejecuta el instalador interactivo:
 
-### Método 2: Manual
+```bash
+notebooklm
+```
 
-1. Descarga el archivo `SKILL.md` de este repositorio.
-2. Colócalo en la carpeta de skills de tu agente (ej. `.agent/skills/notebooklm-mcp/SKILL.md`).
+**O sin instalar globalmente (usando npx):**
+
+```bash
+npx notebooklm-mcp-skill-setup
+```
+
+El asistente te guiará a través del proceso y te preguntará si deseas instalar el skill a nivel de **Proyecto** o **Global**.
+
+### Opción 2: Instalación con curl (Sin npm)
+
+Para usuarios que no tienen Node.js/npm instalado.
+
+**En Linux/macOS (bash):**
+
+```bash
+mkdir -p ~/.agent/skills/notebooklm-mcp
+curl -o ~/.agent/skills/notebooklm-mcp/SKILL.md \
+  https://raw.githubusercontent.com/tu-usuario/notebooklm-mcp-skill-setup/main/SKILL.md
+```
+
+**En Windows (PowerShell):**
+
+```powershell
+$path = "$($env:USERPROFILE)\.agent\skills\notebooklm-mcp"
+New-Item -ItemType Directory -Force -Path $path
+Invoke-WebRequest -Uri "https://raw.githubusercontent.com/tu-usuario/notebooklm-mcp-skill-setup/main/SKILL.md" `
+  -OutFile "$path\SKILL.md"
+```
+
+**Nota:** Reemplaza `tu-usuario` con el usuario de GitHub donde está alojado el repositorio.
+
+### Opción 3: Instalación Manual
+
+1. Descarga el archivo `SKILL.md` desde este repositorio.
+2. Colócalo en: `~/.agent/skills/notebooklm-mcp/SKILL.md` (global) o `./.agent/skills/notebooklm-mcp/SKILL.md` (proyecto)
 3. Recarga tu agente.
+
+## Desinstalación
+
+### Desinstalar el paquete npm
+
+Si deseas desinstalar completamente el paquete:
+
+```bash
+npm uninstall -g notebooklm-mcp-skill-setup
+```
+
+O si lo instalaste con `npx` (no requiere desinstalación adicional).
+
+### Desinstalar el skill del agente
+
+Puedes desinstalar el skill de tu entorno ejecutando:
+
+```bash
+notebooklm
+```
+
+Y selecciona la opción **2. Desinstalar Skill** en el menú interactivo. Elige si deseas eliminarlo del nivel de **Proyecto** o **Global**.
 
 ## Uso
 
